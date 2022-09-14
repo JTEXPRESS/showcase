@@ -150,10 +150,8 @@ public class GuideView extends FrameLayout {
         if (type == GuideType.TOOLTIP) {
             messageView.tooltip();
             new android.os.Handler().postDelayed(this::dismiss, TIMER);
-        } else {
-            messageView.previous(data.getLink(position) != null ? data.getLink(position) : previous);
-            messageView.next(data.getCount() - 1 == position ? finish : next);
         }
+        setButton();
         this.setOnTouchListener((View view, MotionEvent motionEvent) -> type == GuideType.POPOVER);
         ((ViewGroup) ((Activity) getContext()).getWindow().getDecorView()).addView(this);
     }
@@ -222,12 +220,18 @@ public class GuideView extends FrameLayout {
         messageView.title(data.getTitle(position));
         messageView.content(data.getContent(position));
         messageView.previousVisibility(position == 0 && data.getLink(position) == null ? View.GONE : View.VISIBLE);
+        setButton();
     }
 
     private void setMessageLocation(Point p) {
         messageView.setX(p.x);
         messageView.setY(p.y);
         postInvalidate();
+    }
+
+    private void setButton() {
+        messageView.previous(data.getLink(position) != null ? data.getLink(position) : previous);
+        messageView.next(data.getCount() - 1 == position ? finish : next);
     }
 
     private boolean isLandscape() { return getResources().getConfiguration().orientation != Configuration.ORIENTATION_PORTRAIT; }
