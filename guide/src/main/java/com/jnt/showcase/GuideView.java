@@ -39,6 +39,9 @@ public class GuideView extends FrameLayout {
     private GuideType type;
     private RectF targetRect;
     private Rect selfRect;
+    private String previous;
+    private String next;
+    private String finish;
     private int position;
     private int yMessageView;
     private float indicatorHeightGuide;
@@ -93,7 +96,7 @@ public class GuideView extends FrameLayout {
         }
     }
 
-    public void setBackgroundOverlay() {
+    public void backgroundOverlay() {
         selfPaint.setColor(type == GuideType.POPOVER ? BACKGROUND_COLOR : BACKGROUND_TRANSPARENT);
         selfPaint.setStyle(Paint.Style.FILL);
         selfPaint.setAntiAlias(true);
@@ -108,6 +111,12 @@ public class GuideView extends FrameLayout {
     public void previousTypeface(Typeface typeface) { messageView.previousTypeface(typeface); }
 
     public void nextTypeface(Typeface typeface) { messageView.nextTypeface(typeface); }
+
+    public void previous(String previous) { this.previous = previous; }
+
+    public void next(String next) { this.next = next; }
+
+    public void finish(String finish) { this.finish = finish; }
 
     public void backgroundColor(int color) {
         messageView.backgroundColor(color);
@@ -141,6 +150,9 @@ public class GuideView extends FrameLayout {
         if (type == GuideType.TOOLTIP) {
             messageView.tooltip();
             new android.os.Handler().postDelayed(this::dismiss, TIMER);
+        } else {
+            messageView.previous(data.getLink(position) != null ? data.getLink(position) : previous);
+            messageView.next(data.getCount() - 1 == position ? finish : next);
         }
         this.setOnTouchListener((View view, MotionEvent motionEvent) -> type == GuideType.POPOVER);
         ((ViewGroup) ((Activity) getContext()).getWindow().getDecorView()).addView(this);
@@ -248,6 +260,9 @@ public class GuideView extends FrameLayout {
         private Typeface contentTypeface;
         private Typeface previousTypeface;
         private Typeface nextTypeface;
+        private String previous;
+        private String next;
+        private String finish;
         private int backgroundColor;
         private int previousBackgroundColor;
         private int nextBackgroundColor;
@@ -295,6 +310,21 @@ public class GuideView extends FrameLayout {
 
         public Builder nextTypeface(Typeface typeface) {
             this.nextTypeface = typeface;
+            return this;
+        }
+
+        public Builder previous(String previous) {
+            this.previous = previous;
+            return this;
+        }
+
+        public Builder next(String next) {
+            this.next = next;
+            return this;
+        }
+
+        public Builder finish(String finish) {
+            this.finish = finish;
             return this;
         }
 
@@ -367,6 +397,9 @@ public class GuideView extends FrameLayout {
             if (contentTypeface != null) view.contentTypeface(contentTypeface);
             if (previousTypeface != null) view.previousTypeface(previousTypeface);
             if (nextTypeface != null) view.nextTypeface(nextTypeface);
+            if (previous != null) view.previous(previous);
+            if (next != null) view.next(next);
+            if (finish != null) view.finish(finish);
             if (backgroundColor != 0) view.backgroundColor(backgroundColor);
             if (previousBackgroundColor != 0) view.previousBackgroundColor(previousBackgroundColor);
             if (nextBackgroundColor != 0) view.nextBackgroundColor(nextBackgroundColor);
@@ -379,7 +412,7 @@ public class GuideView extends FrameLayout {
             if (contentTextSize != 0) view.contentTextSize(contentTextSize);
             if (previousTextSize != 0) view.previousTextSize(previousTextSize);
             if (nextTextSize != 0) view.nextTextSize(nextTextSize);
-            view.setBackgroundOverlay();
+            view.backgroundOverlay();
             view.build();
             return view;
         }
