@@ -29,9 +29,9 @@ public class GuideMessageView extends LinearLayout {
     private final LinearLayout containerButton;
     private final TextView title;
     private final TextView content;
+    private final TextView previous;
+    private final TextView next;
     private final ImageView close;
-    private final Button previous;
-    private final Button next;
     private GuideListener closeListener;
     private GuideListener previousListener;
     private GuideListener nextListener;
@@ -53,9 +53,9 @@ public class GuideMessageView extends LinearLayout {
         containerButton     = new LinearLayout(context);
         title               = new TextView(context);
         content             = new TextView(context);
+        previous            = new TextView(context);
+        next                = new TextView(context);
         close               = new ImageView(context);
-        previous            = new Button(context);
-        next                = new Button(context);
 
         layoutParamsClose.setMargins(GuideUtils.getBaseDimen(context), 0, 0,0);
         layoutParamsButton.setMargins(GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context));
@@ -86,6 +86,7 @@ public class GuideMessageView extends LinearLayout {
         containerBody.addView(childContainerBody);
         containerBody.addView(childContainerClose);
 
+        previous.setPadding(GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context));
         previous.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
         previous.setGravity(Gravity.CENTER);
         previous.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle));
@@ -94,6 +95,7 @@ public class GuideMessageView extends LinearLayout {
             if (previousListener != null) previousListener.onClick(v);
         });
 
+        next.setPadding(GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context));
         next.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
         next.setGravity(Gravity.CENTER);
         next.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle));

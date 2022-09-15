@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         new GuideView.Builder(this)
                 .data(guideData)
                 .type(GuideType.POPOVER)
+                .previous("Back")
+                .next("Selanjutnya")
                 .backgroundColor(Color.WHITE).build();
     }
 
