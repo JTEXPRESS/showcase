@@ -23,7 +23,6 @@ import android.widget.FrameLayout;
 
 @SuppressLint("ViewConstructor")
 public class GuideView extends FrameLayout {
-    private static final int INDICATOR_HEIGHT       = 40;
     private static final int TIMER                  = 3000;
     private static final int BACKGROUND_COLOR       = 0x99000000;
     private static final int BACKGROUND_TRANSPARENT = 0x00FF0000;
@@ -242,7 +241,7 @@ public class GuideView extends FrameLayout {
         if (isLandscape()) xMessageView -= getNavigationBarSize();
         if (xMessageView + messageView.getWidth() > getWidth()) xMessageView = getWidth() - messageView.getWidth();
         if (xMessageView < 0) xMessageView = 0;
-        if (targetRect.top + GuideUtils.convertDpToPx(getContext(), INDICATOR_HEIGHT) > getHeight() / 2) {
+        if (targetRect.bottom > getHeight() / 2) {
             isTop           = false;
             yMessageView    = (int) (targetRect.top - messageView.getHeight() - indicatorHeightGuide);
         } else {
