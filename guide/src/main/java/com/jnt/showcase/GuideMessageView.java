@@ -76,6 +76,7 @@ public class GuideMessageView extends LinearLayout {
         recent.setAllCaps(true);
         recent.setTextColor(Color.WHITE);
         recent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+        recent.setTypeface(title.getTypeface(), Typeface.BOLD);
 
         cardRecent.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, context.getResources().getDisplayMetrics()));
         cardRecent.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
