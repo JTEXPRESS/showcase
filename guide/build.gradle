@@ -6,7 +6,7 @@ plugins {
 ext {
     PUBLISH_GROUP_ID    = 'com.github.JTEXPRESS'
     PUBLISH_ARTIFACT_ID = 'showcase'
-    PUBLISH_VERSION     = '1.0.6'
+    PUBLISH_VERSION     = '1.0.7'
 }
 
 group   = PUBLISH_GROUP_ID

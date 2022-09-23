@@ -363,7 +363,7 @@ public class GuideView extends FrameLayout {
         }
 
         public Builder recentBackgroundColor(int color) {
-            this.backgroundColor = color;
+            this.recentBackgroundColor = color;
             return this;
         }
 
