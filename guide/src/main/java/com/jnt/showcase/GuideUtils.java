@@ -7,6 +7,8 @@ public class GuideUtils {
 
     public static int getNoneDimen(Context context) { return convertDpToPx(context, 0); }
 
+    public static int getExtraTightDimen(Context context) { return convertDpToPx(context, 2); }
+
     public static int getTightestDimen(Context context) { return convertDpToPx(context, 4); }
 
     public static int getTighterDimen(Context context) { return convertDpToPx(context, 8); }

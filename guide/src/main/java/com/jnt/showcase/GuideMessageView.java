@@ -11,7 +11,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,7 +44,6 @@ public class GuideMessageView extends LinearLayout {
         setWillNotDraw(false);
         setOrientation(VERTICAL);
 
-
         RelativeLayout.LayoutParams layoutParamsClose   = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LayoutParams layoutParamsRecent                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         LayoutParams layoutParamsButton                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -72,7 +70,7 @@ public class GuideMessageView extends LinearLayout {
         layoutParamsContainerButton.setMargins(GuideUtils.getTightDimen(context), GuideUtils.getNoneDimen(context), GuideUtils.getTightDimen(context), GuideUtils.getTightDimen(context));
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        recent.setPadding(GuideUtils.getTighterDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getTightestDimen(context));
+        recent.setPadding(GuideUtils.getTightestDimen(context), GuideUtils.getExtraTightDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getExtraTightDimen(context));
         recent.setAllCaps(true);
         recent.setTextColor(Color.WHITE);
         recent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
@@ -180,7 +178,6 @@ public class GuideMessageView extends LinearLayout {
     public void backgroundColor(int color) {
         paint.setAlpha(255);
         paint.setColor(color);
-
         invalidate();
     }
 

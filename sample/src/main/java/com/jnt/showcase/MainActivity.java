@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private void showcase() {
         GuideData guideData = new GuideData();
 
-        guideData.add(myButton1, "SHOWCASE", "where ‘library’ is the name of your library module.");
+        guideData.add(myButton1, "SHOWCASE", "where ‘library’ is the name of your library module.", true);
         guideData.add(myButton2, null, "If everything went well in the previous step, your library is ready to be released! Create a GitHub release or add a git tag and you’re done!");
         guideData.add(myButton3, "", "If you add a sample app to the same repo then your app needs to depend on the library. To do this in your app/build.gradle add a dependency in the form");
 
         new GuideView.Builder(this)
+                .recent("new")
                 .data(guideData)
                 .type(GuideType.POPOVER)
                 .previous("Back")
