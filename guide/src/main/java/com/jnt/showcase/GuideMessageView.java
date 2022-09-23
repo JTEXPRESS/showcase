@@ -18,15 +18,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 public class GuideMessageView extends LinearLayout {
     private final RectF rectF;
     private final Paint paint;
+    private final LinearLayout containerTitle;
     private final LinearLayout containerBody;
     private final LinearLayout childContainerBody;
     private final LinearLayout childContainerClose;
     private final LinearLayout containerButton;
+    private final CardView cardRecent;
+    private final TextView recent;
     private final TextView title;
     private final TextView content;
     private final TextView previous;
@@ -41,37 +45,57 @@ public class GuideMessageView extends LinearLayout {
         setWillNotDraw(false);
         setOrientation(VERTICAL);
 
-        RelativeLayout.LayoutParams layoutParamsClose               = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LayoutParams layoutParamsButton                             = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        LayoutParams layoutParamsContainerButton                    = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT );
+
+        RelativeLayout.LayoutParams layoutParamsClose   = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParamsRecent                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParamsButton                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParamsContainerButton        = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT );
 
         rectF               = new RectF();
         paint               = new Paint(Paint.ANTI_ALIAS_FLAG);
+        containerTitle      = new LinearLayout(context);
         containerBody       = new LinearLayout(context);
         childContainerBody  = new LinearLayout(context);
         childContainerClose = new LinearLayout(context);
         containerButton     = new LinearLayout(context);
+        cardRecent          = new CardView(context);
+        recent              = new TextView(context);
         title               = new TextView(context);
         content             = new TextView(context);
         previous            = new TextView(context);
         next                = new TextView(context);
         close               = new ImageView(context);
 
-        layoutParamsClose.setMargins(GuideUtils.getBaseDimen(context), 0, 0,0);
+        layoutParamsClose.setMargins(GuideUtils.getBaseDimen(context), GuideUtils.getNoneDimen(context), GuideUtils.getNoneDimen(context),GuideUtils.getNoneDimen(context));
+        layoutParamsRecent.setMargins(GuideUtils.getNoneDimen(context), GuideUtils.getNoneDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getNoneDimen(context));
         layoutParamsButton.setMargins(GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTightestDimen(context));
         layoutParamsContainerButton.setMargins(GuideUtils.getTightDimen(context), GuideUtils.getNoneDimen(context), GuideUtils.getTightDimen(context), GuideUtils.getTightDimen(context));
         paint.setStrokeCap(Paint.Cap.ROUND);
 
+        recent.setPadding(GuideUtils.getTighterDimen(context), GuideUtils.getTightestDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getTightestDimen(context));
+        recent.setAllCaps(true);
+        recent.setTextColor(Color.WHITE);
+        recent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+
+        cardRecent.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4f, context.getResources().getDisplayMetrics()));
+        cardRecent.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
+        cardRecent.setCardBackgroundColor(Color.BLACK);
+        cardRecent.addView(recent);
+
         title.setTextColor(Color.BLACK);
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         title.setTypeface(title.getTypeface(), Typeface.BOLD);
+
+        containerTitle.setGravity(Gravity.CENTER_VERTICAL);
+        containerTitle.addView(cardRecent, layoutParamsRecent);
+        containerTitle.addView(title);
 
         content.setTextColor(Color.BLACK);
         content.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
         childContainerBody.setLayoutParams(new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT, 0.9f));
         childContainerBody.setOrientation(VERTICAL);
-        childContainerBody.addView(title);
+        childContainerBody.addView(containerTitle);
         childContainerBody.addView(content);
 
         close.setImageResource(R.drawable.ic_close);
@@ -126,6 +150,8 @@ public class GuideMessageView extends LinearLayout {
 
     public void onClickNextListener(GuideListener listener) { this.nextListener = listener; }
 
+    public void recent(String recent) { this.recent.setText(recent); }
+
     public void title(String title) {
         this.title.setText(title);
         this.title.setVisibility(this.title.getText().toString().isEmpty() ? View.GONE : View.VISIBLE);
@@ -139,6 +165,8 @@ public class GuideMessageView extends LinearLayout {
     public void previous(String previous) { this.previous.setText(previous); }
 
     public void next(String next) { this.next.setText(next); }
+
+    public void recentTypeface(Typeface typeface) { this.recent.setTypeface(typeface); }
 
     public void titleTypeface(Typeface typeface) { this.title.setTypeface(typeface); }
 
@@ -155,9 +183,13 @@ public class GuideMessageView extends LinearLayout {
         invalidate();
     }
 
+    public void recentBackgroundColor(int color) { this.cardRecent.setCardBackgroundColor(color); }
+
     public void previousBackgroundColor(int color) { this.previous.setBackgroundTintList(ColorStateList.valueOf(color)); }
 
     public void nextBackgroundColor(int color) { this.next.setBackgroundTintList(ColorStateList.valueOf(color)); }
+
+    public void recentTextColor(int color) { this.recent.setTextColor(color); }
 
     public void titleTextColor(int color) { this.title.setTextColor(color); }
 
@@ -169,6 +201,8 @@ public class GuideMessageView extends LinearLayout {
 
     public void closeImageColor(int color) { this.close.setImageTintList(ColorStateList.valueOf(color)); }
 
+    public void recentTextSize(int size) { this.recent.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);}
+
     public void titleTextSize(int size) { this.title.setTextSize(TypedValue.COMPLEX_UNIT_SP, size); }
 
     public void contentTextSize(int size) { this.content.setTextSize(TypedValue.COMPLEX_UNIT_SP, size); }
@@ -177,11 +211,14 @@ public class GuideMessageView extends LinearLayout {
 
     public void nextTextSize(int size) { this.previous.setTextSize(TypedValue.COMPLEX_UNIT_SP, size); }
 
+    public void recentVisibility(int visibility) { this.cardRecent.setVisibility(visibility); }
+
     public void previousVisibility(int visibility) { this.previous.setVisibility(visibility); }
 
     public void tooltip() {
         title.setVisibility(View.GONE);
         close.setVisibility(View.GONE);
-        containerButton.setVisibility(GONE);
+        cardRecent.setVisibility(View.GONE);
+        containerButton.setVisibility(View.GONE);
     }
 }

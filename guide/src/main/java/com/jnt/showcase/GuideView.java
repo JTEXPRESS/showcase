@@ -31,8 +31,8 @@ public class GuideView extends FrameLayout {
     private final Paint paintLine           = new Paint();
     private final Paint targetPaint         = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Xfermode X_FER_MODE_CLEAR = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
-
     private final GuideData data;
+
     private GuideMessageView messageView;
     private GuideListener listener;
     private GuideType type;
@@ -103,6 +103,8 @@ public class GuideView extends FrameLayout {
 
     public void onLinkListener(GuideListener listener) { if (listener != null) this.listener = listener; }
 
+    public void recentTypeface(Typeface typeface) { messageView.recentTypeface(typeface); }
+
     public void titleTypeface(Typeface typeface) { messageView.titleTypeface(typeface); }
 
     public void contentTypeface(Typeface typeface) { messageView.contentTypeface(typeface); }
@@ -110,6 +112,8 @@ public class GuideView extends FrameLayout {
     public void previousTypeface(Typeface typeface) { messageView.previousTypeface(typeface); }
 
     public void nextTypeface(Typeface typeface) { messageView.nextTypeface(typeface); }
+
+    public void recent(String recent) { messageView.recent(recent); }
 
     public void previous(String previous) { this.previous = previous; }
 
@@ -122,9 +126,13 @@ public class GuideView extends FrameLayout {
         paintLine.setColor(color);
     }
 
+    public void recentBackgroundColor(int color) { messageView.recentBackgroundColor(color); }
+
     public void previousBackgroundColor(int color) { messageView.previousBackgroundColor(color); }
 
     public void nextBackgroundColor(int color) { messageView.nextBackgroundColor(color); }
+
+    public void recentTextColor(int color) { messageView.recentTextColor(color); }
 
     public void titleTextColor(int color) { messageView.titleTextColor(color); }
 
@@ -135,6 +143,8 @@ public class GuideView extends FrameLayout {
     public void nextTextColor(int color) { messageView.nextTextColor(color); }
 
     public void closeImageColor(int color) { messageView.closeImageColor(color); }
+
+    public void recentTextSize(int size) { messageView.recentTextSize(size); }
 
     public void titleTextSize(int size) { messageView.titleTextSize(size); }
 
@@ -218,6 +228,7 @@ public class GuideView extends FrameLayout {
         });
         messageView.title(data.getTitle(position));
         messageView.content(data.getContent(position));
+        messageView.recentVisibility(data.isNew(position) ? View.VISIBLE : View.GONE);
         messageView.previousVisibility(position == 0 && data.getLink(position) == null ? View.GONE : View.VISIBLE);
         setButton();
     }
@@ -259,21 +270,26 @@ public class GuideView extends FrameLayout {
         private GuideData data;
         private GuideType type;
         private GuideListener listener;
+        private Typeface recentTypeface;
         private Typeface titleTypeface;
         private Typeface contentTypeface;
         private Typeface previousTypeface;
         private Typeface nextTypeface;
+        private String recent;
         private String previous;
         private String next;
         private String finish;
         private int backgroundColor;
+        private int recentBackgroundColor;
         private int previousBackgroundColor;
         private int nextBackgroundColor;
+        private int recentTextColor;
         private int titleTextColor;
         private int contentTextColor;
         private int previousTextColor;
         private int nextTextColor;
         private int closeImageColor;
+        private int recentTextSize;
         private int titleTextSize;
         private int contentTextSize;
         private int previousTextSize;
@@ -293,6 +309,11 @@ public class GuideView extends FrameLayout {
 
         public Builder onLinkListener(GuideListener listener) {
             this.listener = listener;
+            return this;
+        }
+
+        public Builder recentTypeface(Typeface typeface) {
+            this.recentTypeface = typeface;
             return this;
         }
 
@@ -316,6 +337,11 @@ public class GuideView extends FrameLayout {
             return this;
         }
 
+        public Builder recent(String recent) {
+            this.recent = recent;
+            return this;
+        }
+
         public Builder previous(String previous) {
             this.previous = previous;
             return this;
@@ -336,6 +362,11 @@ public class GuideView extends FrameLayout {
             return this;
         }
 
+        public Builder recentBackgroundColor(int color) {
+            this.backgroundColor = color;
+            return this;
+        }
+
         public Builder previousBackgroundColor(int color) {
             this.previousBackgroundColor = color;
             return this;
@@ -343,6 +374,11 @@ public class GuideView extends FrameLayout {
 
         public Builder nextBackgroundColor(int color) {
             this.nextBackgroundColor = color;
+            return this;
+        }
+
+        public Builder recentTextColor(int color) {
+            this.recentTextColor = color;
             return this;
         }
 
@@ -371,6 +407,11 @@ public class GuideView extends FrameLayout {
             return this;
         }
 
+        public Builder recentTextSize(int size) {
+            this.recentTextSize = size;
+            return this;
+        }
+
         public Builder titleTextSize(int size) {
             this.titleTextSize = size;
             return this;
@@ -396,21 +437,26 @@ public class GuideView extends FrameLayout {
             view.type       = type == null ? GuideType.POPOVER : type;
 
             if (listener != null) view.onLinkListener(listener);
+            if (recentTypeface != null) view.recentTypeface(recentTypeface);
             if (titleTypeface != null) view.titleTypeface(titleTypeface);
             if (contentTypeface != null) view.contentTypeface(contentTypeface);
             if (previousTypeface != null) view.previousTypeface(previousTypeface);
             if (nextTypeface != null) view.nextTypeface(nextTypeface);
+            if (recent != null) view.recent(recent);
             if (previous != null) view.previous(previous);
             if (next != null) view.next(next);
             if (finish != null) view.finish(finish);
             if (backgroundColor != 0) view.backgroundColor(backgroundColor);
+            if (recentBackgroundColor != 0) view.recentBackgroundColor(recentBackgroundColor);
             if (previousBackgroundColor != 0) view.previousBackgroundColor(previousBackgroundColor);
             if (nextBackgroundColor != 0) view.nextBackgroundColor(nextBackgroundColor);
+            if (recentTextColor != 0) view.recentTextColor(recentTextColor);
             if (titleTextColor != 0) view.titleTextColor(titleTextColor);
             if (contentTextColor != 0) view.contentTextColor(contentTextColor);
             if (previousTextColor != 0) view.previousTextColor(previousTextColor);
             if (nextTextColor != 0) view.nextTextColor(nextTextColor);
             if (closeImageColor != 0) view.closeImageColor(closeImageColor);
+            if (recentTextSize != 0) view.recentTextSize(recentTextSize);
             if (titleTextSize != 0) view.titleTextSize(titleTextSize);
             if (contentTextSize != 0) view.contentTextSize(contentTextSize);
             if (previousTextSize != 0) view.previousTextSize(previousTextSize);
