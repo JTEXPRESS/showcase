@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 .data(guideData)
                 .type(GuideType.POPOVER)
                 .previous("Back")
+                .previousTextColor(Color.WHITE)
                 .next("Selanjutnya")
+                .nextBackgroundColor(Color.BLACK)
+                .nextTextColor(Color.WHITE)
                 .backgroundColor(Color.WHITE).build();
     }
 

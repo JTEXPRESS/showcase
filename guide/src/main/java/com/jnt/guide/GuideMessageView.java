@@ -29,6 +29,8 @@ public class GuideMessageView extends LinearLayout {
     private final LinearLayout childContainerClose;
     private final LinearLayout containerButton;
     private final CardView cardRecent;
+    private final CardView cardPrevious;
+    private final CardView cardNext;
     private final TextView recent;
     private final TextView title;
     private final TextView content;
@@ -57,6 +59,8 @@ public class GuideMessageView extends LinearLayout {
         childContainerClose = new LinearLayout(context);
         containerButton     = new LinearLayout(context);
         cardRecent          = new CardView(context);
+        cardPrevious        = new CardView(context);
+        cardNext            = new CardView(context);
         recent              = new TextView(context);
         title               = new TextView(context);
         content             = new TextView(context);
@@ -112,25 +116,31 @@ public class GuideMessageView extends LinearLayout {
         previous.setPadding(GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context));
         previous.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
         previous.setGravity(Gravity.CENTER);
-        previous.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle));
         previous.setTypeface(previous.getTypeface(), Typeface.BOLD);
         previous.setOnClickListener(v -> {
             if (previousListener != null) previousListener.onClick(v);
         });
 
+        cardPrevious.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, context.getResources().getDisplayMetrics()));
+        cardPrevious.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
+        cardPrevious.addView(previous);
+
         next.setPadding(GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context));
         next.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
         next.setGravity(Gravity.CENTER);
-        next.setBackground(ContextCompat.getDrawable(context, R.drawable.rectangle));
         next.setTypeface(next.getTypeface(), Typeface.BOLD);
         next.setOnClickListener(v -> {
             if (nextListener != null) nextListener.onClick(v);
         });
 
+        cardNext.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, context.getResources().getDisplayMetrics()));
+        cardNext.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
+        cardNext.addView(next);
+
         containerButton.setOrientation(HORIZONTAL);
         containerButton.setGravity(Gravity.RIGHT);
-        containerButton.addView(previous, layoutParamsButton);
-        containerButton.addView(next, layoutParamsButton);
+        containerButton.addView(cardPrevious, layoutParamsButton);
+        containerButton.addView(cardNext, layoutParamsButton);
 
         addView(containerBody);
         addView(containerButton, layoutParamsContainerButton);
@@ -183,9 +193,9 @@ public class GuideMessageView extends LinearLayout {
 
     public void recentBackgroundColor(int color) { this.cardRecent.setCardBackgroundColor(color); }
 
-    public void previousBackgroundColor(int color) { this.previous.setBackgroundTintList(ColorStateList.valueOf(color)); }
+    public void previousBackgroundColor(int color) { this.cardPrevious.setCardBackgroundColor(color); }
 
-    public void nextBackgroundColor(int color) { this.next.setBackgroundTintList(ColorStateList.valueOf(color)); }
+    public void nextBackgroundColor(int color) { this.cardNext.setCardBackgroundColor(color); }
 
     public void recentTextColor(int color) { this.recent.setTextColor(color); }
 

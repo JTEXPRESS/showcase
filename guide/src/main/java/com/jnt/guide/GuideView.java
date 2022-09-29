@@ -23,7 +23,6 @@ import android.widget.FrameLayout;
 
 @SuppressLint("ViewConstructor")
 public class GuideView extends FrameLayout {
-    private static final int TIMER                  = 3000;
     private static final int BACKGROUND_COLOR       = 0x99000000;
     private static final int BACKGROUND_TRANSPARENT = 0x00FF0000;
 
@@ -45,6 +44,7 @@ public class GuideView extends FrameLayout {
     private int yMessageView;
     private float indicatorHeightGuide;
     private boolean isTop;
+    private boolean isShow;
 
     private GuideView(Context context, GuideData data) {
         super(context);
@@ -57,6 +57,17 @@ public class GuideView extends FrameLayout {
         initView();
         initListener();
         setTarget();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (type == GuideType.TOOLTIP && motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            dismiss();
+            isShow = false;
+        } else isShow = true;
+
+        return isShow;
     }
 
     @SuppressLint("DrawAllocation")
@@ -156,12 +167,8 @@ public class GuideView extends FrameLayout {
 
     @SuppressLint("ClickableViewAccessibility")
     public void build() {
-        if (type == GuideType.TOOLTIP) {
-            messageView.tooltip();
-            new android.os.Handler().postDelayed(this::dismiss, TIMER);
-        }
+        if (type == GuideType.TOOLTIP) messageView.tooltip();
         setButton();
-        this.setOnTouchListener((View view, MotionEvent motionEvent) -> type == GuideType.POPOVER);
         ((ViewGroup) ((Activity) getContext()).getWindow().getDecorView()).addView(this);
     }
 
@@ -171,6 +178,7 @@ public class GuideView extends FrameLayout {
         position                = 0;
         yMessageView            = 0;
         indicatorHeightGuide    = GuideUtils.getTighterDimen(getContext());
+        isShow                  = false;
 
         messageView.setPadding(GuideUtils.getBaseDimen(getContext()), GuideUtils.getTightestDimen(getContext()), GuideUtils.getBaseDimen(getContext()), GuideUtils.getTightestDimen(getContext()));
     }
