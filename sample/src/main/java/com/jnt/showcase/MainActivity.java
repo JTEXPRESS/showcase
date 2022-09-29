@@ -6,6 +6,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.jnt.guide.GuideData;
+import com.jnt.guide.GuideType;
+import com.jnt.guide.GuideView;
+
 public class MainActivity extends AppCompatActivity {
     private Button myButton;
     private Button myButton1;
