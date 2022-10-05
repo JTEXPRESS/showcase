@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -49,7 +50,7 @@ public class GuideMessageView extends LinearLayout {
         RelativeLayout.LayoutParams layoutParamsClose   = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         LayoutParams layoutParamsRecent                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         LayoutParams layoutParamsButton                 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        LayoutParams layoutParamsContainerButton        = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT );
+        LayoutParams layoutParamsContainerButton        = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         rectF               = new RectF();
         paint               = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -123,7 +124,7 @@ public class GuideMessageView extends LinearLayout {
 
         cardPrevious.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, context.getResources().getDisplayMetrics()));
         cardPrevious.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
-        cardPrevious.addView(previous);
+        cardPrevious.addView(previous, layoutParamsButton);
 
         next.setPadding(GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context), GuideUtils.getBaseDimen(context), GuideUtils.getTighterDimen(context));
         next.setTextSize(TypedValue.COMPLEX_UNIT_SP,12);
@@ -135,7 +136,7 @@ public class GuideMessageView extends LinearLayout {
 
         cardNext.setRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, context.getResources().getDisplayMetrics()));
         cardNext.setCardElevation(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0f, context.getResources().getDisplayMetrics()));
-        cardNext.addView(next);
+        cardNext.addView(next, layoutParamsButton);
 
         containerButton.setOrientation(HORIZONTAL);
         containerButton.setGravity(Gravity.RIGHT);
@@ -167,7 +168,7 @@ public class GuideMessageView extends LinearLayout {
     }
 
     public void content(String content) {
-        this.content.setText(content);
+        this.content.setText(Html.fromHtml(content));
         this.content.setVisibility(this.content.getText().toString().isEmpty() ? View.GONE : View.VISIBLE);
     }
 
